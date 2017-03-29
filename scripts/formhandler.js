@@ -10,7 +10,8 @@
         if (this.$formElement.length === 0) {
             throw new Error('could not find element with selector: ' + selector);
         }
-        FormHandler.prototype.addSubmitHandler = function(fn) {
+        FormHandler.prototype.addSubmitHandler = function(fn, fn2) {
+            //do the server side validation first, proceed if validation succeeds
             console.log('Setting submit handler for form');
             this.$formElement.on('submit', function (event) {
                 event.preventDefault();
@@ -19,12 +20,43 @@
                     data[item.name] = item.value;
                     console.log(item.name + ' is ' + item.value);
                 });
-                console.log(data);
-                fn(data);
+                var key = data['emailAddress'];
 
-                this.reset();
-                this.elements[0].focus();
+                var emailField = document.getElementById('emailInput');
+                var message = '';
 
+                //maybe just put my validation function here?
+
+
+
+                if(fn2(key)) {
+                    message = key + ' already exists on the remote server!';
+                    emailField.setCustomValidity(message);
+                    return;
+                }
+                else {
+                    console.log(data);
+                    fn(data);
+
+                    this.reset();
+                    this.elements[0].focus();
+                }
+
+
+            });
+        };
+
+        FormHandler.prototype.addSubmitHandler_AE = function (fn) {
+            console.log('setting submit handler for serverside validation');
+            this.$formElement.on('submit', function(event){
+                event.preventDefault();
+                var emailAddress = $('[name="emailAddress"]').val();
+                var message = '';
+                var emailField = document.getElementById('emailInput');
+                if(fn(emailAddress)) {
+                    message = emailAddress + 'already exists in the order list!';
+                    emailField.setCustomValidity(message);
+                }
             });
         };
 
@@ -36,7 +68,7 @@
                 if (fn(emailAddress)) {
                     event.target.setCustomValidity('');
                 } else {
-                    message = emailAddress + ' is not an authorized email address!';
+                    message = emailAddress + ' is not an valid email address!';
                     event.target.setCustomValidity(message);
                 }
 
