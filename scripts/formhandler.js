@@ -10,7 +10,7 @@
         if (this.$formElement.length === 0) {
             throw new Error('could not find element with selector: ' + selector);
         }
-        FormHandler.prototype.addSubmitHandler = function(fn, fn2) {
+        FormHandler.prototype.addSubmitHandler = function(fn) {
             //do the server side validation first, proceed if validation succeeds
             console.log('Setting submit handler for form');
             this.$formElement.on('submit', function (event) {
@@ -25,28 +25,19 @@
                 var emailField = document.getElementById('emailInput');
                 var message = '';
 
-                //maybe just put my validation function here?
 
+                console.log(data);
+                fn(data);
 
+                this.reset();
+                this.elements[0].focus();
 
-                if(fn2(key)) {
-                    message = key + ' already exists on the remote server!';
-                    emailField.setCustomValidity(message);
-                    return;
-                }
-                else {
-                    console.log(data);
-                    fn(data);
-
-                    this.reset();
-                    this.elements[0].focus();
-                }
 
 
             });
         };
 
-        FormHandler.prototype.addSubmitHandler_AE = function (fn) {
+        /*FormHandler.prototype.addSubmitHandler_AE = function (fn) {
             console.log('setting submit handler for serverside validation');
             this.$formElement.on('submit', function(event){
                 event.preventDefault();
@@ -56,6 +47,19 @@
                 if(fn(emailAddress)) {
                     message = emailAddress + 'already exists in the order list!';
                     emailField.setCustomValidity(message);
+                }
+            });
+        };*/
+        FormHandler.prototype.addBlurHandler = function (fn) {
+            //once the email field 'blurs', do serverside validation on the email address
+            console.log('setting blur handler for email field');
+            this.$formElement.on('blur', '[name="emailAddress"]', function(event) {
+                var key = event.target.value;
+                console.log(key);
+                var message = '';
+                if (fn(key)) {
+                    message = key + ' already exists on the remote server!';
+                    event.target.setCustomValidity(message);
                 }
             });
         };
