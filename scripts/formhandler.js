@@ -37,19 +37,7 @@
             });
         };
 
-        /*FormHandler.prototype.addSubmitHandler_AE = function (fn) {
-            console.log('setting submit handler for serverside validation');
-            this.$formElement.on('submit', function(event){
-                event.preventDefault();
-                var emailAddress = $('[name="emailAddress"]').val();
-                var message = '';
-                var emailField = document.getElementById('emailInput');
-                if(fn(emailAddress)) {
-                    message = emailAddress + 'already exists in the order list!';
-                    emailField.setCustomValidity(message);
-                }
-            });
-        };*/
+
         FormHandler.prototype.addBlurHandler = function (fn) {
             //once the email field 'blurs', do serverside validation on the email address
             console.log('setting blur handler for email field');
