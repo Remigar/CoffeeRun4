@@ -20,9 +20,6 @@
             //send a query to the remote server for an order with key email
             //if it exists, return true
             //else, return false
-            /*var result = $.get('http://coffeerun-v2-rest-api.herokuapp.com/api/coffeeorders' + '/' + email, function(serverResponse) {
-                //do nothing
-            });*/
             var result = $.ajax({
                 url: 'http://coffeerun-v2-rest-api.herokuapp.com/api/coffeeorders' + '/' + email,
                 success: function(result) {

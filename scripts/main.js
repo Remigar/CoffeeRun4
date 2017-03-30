@@ -18,12 +18,17 @@
     checkList.addClickHandler(myTruck.deliverOrder.bind(myTruck));
 
     formHandler.addSubmitHandler(function(data) {
-        myTruck.createOrder.call(myTruck, data);
-        checkList.addRow.call(checkList, data);
+        return myTruck.createOrder.call(myTruck, data)
+        .then(function() {
+            checkList.addRow.call(checkList,data);
+        });
     });
     formHandler.addBlurHandler(Validation.alreadyExists);
 
     formHandler.addInputHandler(Validation.isCompanyEmail);
+
+    myTruck.printOrders(checkList.addRow.bind(checkList));
+
     formHandler.addCoffeeandSliderHandler(Validation.decafCheck);
 
 })(window);
