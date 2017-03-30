@@ -21,7 +21,7 @@
             //if it exists, return true
             //else, return false
             var result = $.ajax({
-                url: 'http://coffeerun-v2-rest-api.herokuapp.com/api/coffeeorders' + '/' + email,
+                url: 'http://localhost:3002/coffeeorders' + '/' + email,
                 success: function(result) {
                     //DO NOTHING
                 },
@@ -29,7 +29,7 @@
             });
 
             console.log(result);
-            if (result.responseText == 'null')
+            if (result.status == '{}')
                 return false;
             else return true;
         }
