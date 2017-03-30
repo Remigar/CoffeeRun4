@@ -29,7 +29,7 @@
             });
 
             console.log(result);
-            if (result.status == '{}')
+            if (result.responseText == '{}')
                 return false;
             else return true;
         }
